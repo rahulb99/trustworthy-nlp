@@ -4,13 +4,13 @@ import requests
 df = pd.read_csv("data/harmful-behaviors.csv")
 MODEL_URL = "http://localhost:1234/v1/chat/completions" # LM Studio server URL
 config = {
-    "max_tokens": 256,
-    "temperature": 0.1,
+    "max_tokens": 512,
+    "temperature": 1,
     "stream": False
 }
 
-models = ["meta-llama-3.1-8b-instruct", "phi-3.1-mini-128k-instruct", "gemma-2-2b-it"]
-attack_type = [  "dan", "pap" ] # "plain" , "gcg" 
+models = ["meta-llama-3.1-8b-instruct"] # , "phi-3.1-mini-128k-instruct", "gemma-2-2b-it"
+attack_type = [ "gcg" , "dan", "pap" ] #  ,  , "plain" 
 for attack in attack_type:
     responses = []
     for model in models:
@@ -41,4 +41,4 @@ for attack in attack_type:
                 responses.append(completion)
 
     df_responses = pd.DataFrame(responses, columns=["model", "response"])
-    df_responses.to_csv(f"data/responses_{attack}.csv", index=False)
+    df_responses.to_csv(f"data/responses_{attack}_1.csv", index=False)
